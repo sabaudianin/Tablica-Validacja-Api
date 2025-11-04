@@ -35,7 +35,7 @@ export default function RootLayout() {
           3-API
         </NavLink>
       </nav>
-      <main className="flex-1 flex items-center justify-center">
+      <main className="flex-1 flex items-center justify-center w-full">
         <Outlet />
       </main>
     </div>
