@@ -15,7 +15,7 @@ export const TekstTask = () => {
 
     const first = word[0];
     const last = word[word.length - 1];
-    const inside = word.slice(1, -1).split("");
+    const inside = [...word.slice(1, -1)];
 
     for (let i = inside.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -33,22 +33,22 @@ export const TekstTask = () => {
 
   return (
     <div className="w-full text-center">
-      <h2>ZADANIE 1</h2>
+      <h2 className="font-bold">ZADANIE 1</h2>
       <h3 className="p-4">
-        Wpisz tekst i zmien kolejność liter, tekst pojawi się pod spodem.
+        Wpisz tekst i wciśnij przycisk aby zmienić kolejność liter,
+        przekształcony tekst pojawi się pod spodem.
       </h3>
       <div className="flex flex-col gap-2 items-center">
         <textarea
           value={promptText}
           placeholder="Tu wpisz text..."
           rows={5}
-          cols={20}
           onChange={(e) => setpromptText(e.target.value)}
           className="border w-full rounded p-1 text-center"
         ></textarea>
         <button
           onClick={handleMix}
-          className="rounded m-2 p-2 bg-white/50 w-1/2 text-center"
+          className="rounded m-2 p-2 bg-green-300/50 w-1/4 text-center font-semibold"
         >
           Mixuj
         </button>

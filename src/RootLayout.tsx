@@ -38,6 +38,10 @@ export default function RootLayout() {
       <main className="flex-1 flex items-center justify-center w-full">
         <Outlet />
       </main>
+      <footer className="w-full">
+        <hr className="p-2" />
+        Copyright &copy; {new Date().getFullYear()} Rafał Bobko
+      </footer>
     </div>
   );
 }
