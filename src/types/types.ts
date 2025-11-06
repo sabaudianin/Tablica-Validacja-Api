@@ -25,3 +25,10 @@ export type User = {
 export type UpdateUserInput = Partial<
   Pick<User, "name" | "email" | "gender" | "status">
 >;
+
+export type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  title?: string;
+  children: React.ReactNode;
+};
