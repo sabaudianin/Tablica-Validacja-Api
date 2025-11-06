@@ -8,7 +8,7 @@ export default function RootLayout() {
     }`;
 
   return (
-    <div className="w-full h-screen max-w-6xl flex flex-col justify-center items-center mx-auto">
+    <div className="w-full min-h-screen max-w-6xl flex flex-col justify-center items-center mx-auto gap-2">
       <nav className="w-full flex  items-center justify-between font-semibold">
         <NavLink
           to="/"
@@ -35,6 +35,7 @@ export default function RootLayout() {
           3-API
         </NavLink>
       </nav>
+      <hr className="p-2 mt-2 w-full " />
       <main className="flex-1 flex items-center justify-center w-full">
         <Outlet />
       </main>
