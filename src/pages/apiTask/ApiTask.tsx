@@ -5,14 +5,8 @@ import { useEditUser } from "../../hooks/useEditUser";
 import { EditUserForm } from "../../components/editUserForm/EditUserForm";
 
 export const ApiTask: React.FC = () => {
-  const { loading, error, users } = useGetUser();
-  const {
-    updateUser,
-    isPending,
-    pendingId,
-    error: editError,
-    isEditing,
-  } = useEditUser();
+  const { loading, error, users, refetch } = useGetUser();
+  const { error: editError, isEditing } = useEditUser({ onSuccess: refetch });
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<User | null>(null);
@@ -69,6 +63,7 @@ export const ApiTask: React.FC = () => {
         open={open}
         onClose={() => setOpen(false)}
         user={selected}
+        onSaved={refetch}
       />
     </section>
   );

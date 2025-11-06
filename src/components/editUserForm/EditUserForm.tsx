@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import type { User, FormProps } from "../../types/types";
 import { Modal } from "../modal/Modal";
 import { useEditUser } from "../../hooks/useEditUser";
-import { useGetUser } from "../../hooks/useGetUser";
 
-export const EditUserForm: React.FC<FormProps> = ({ open, onClose, user }) => {
+export const EditUserForm: React.FC<FormProps> = ({
+  open,
+  onClose,
+  user,
+  onSaved,
+}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState<"male" | "female">("male");
   const [status, setStatus] = useState<"active" | "inactive">("active");
 
-  const { refetch } = useGetUser();
-  const { updateUser, isEditing, error } = useEditUser();
+  const { updateUser, isEditing, error } = useEditUser({ onSuccess: onSaved });
 
   useEffect(() => {
     if (user) {
@@ -32,7 +35,6 @@ export const EditUserForm: React.FC<FormProps> = ({ open, onClose, user }) => {
     } catch (error) {
       throw new Error(String(error));
     }
-    refetch();
   };
   return (
     <Modal

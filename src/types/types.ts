@@ -37,4 +37,5 @@ export type FormProps = {
   open: boolean;
   onClose: () => void;
   user: User | null;
+  onSaved: () => void;
 };
