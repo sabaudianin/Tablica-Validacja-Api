@@ -5,7 +5,7 @@ import { useEditUser } from "../../hooks/useEditUser";
 import { EditUserForm } from "../../components/editUserForm/EditUserForm";
 
 export const ApiTask: React.FC = () => {
-  const { loading, error, users, refetch } = useGetUser();
+  const { loading, error, users, refetch, query, setQuery } = useGetUser();
   const { error: editError, isEditing } = useEditUser({ onSuccess: refetch });
 
   const [open, setOpen] = useState(false);
@@ -13,14 +13,21 @@ export const ApiTask: React.FC = () => {
 
   return (
     <section className="w-full">
-      <div className="font-semibold">
-        <h3>SEARCH USER LIST</h3>
+      <div className="w-full font-semibold flex gap-2 justify-center">
         <input
-          placeholder="Write user name"
-          className="border text-center rounded p-2"
+          placeholder="Search user by name..."
+          className="w-full border text-center rounded p-2"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
+        <button
+          className="bg-green-500/50 rounded p-2 w-1/3"
+          onClick={() => alert("Opcja dostepna niedługo")}
+        >
+          Add User
+        </button>
       </div>
-      <h2 className="font-semibold p-2">USERS LIST:</h2>
+      <h2 className="font-semibold p-1  mt-4">Go REST USERS LIST:</h2>
       {loading && <div className="animate-pulse p-2">... LOADING ...</div>}
       {error && <div className="text-red-500 font-semibold p-4">{error}</div>}
 
@@ -48,7 +55,10 @@ export const ApiTask: React.FC = () => {
                   {isEditing(user.id) ? "Saving..." : "Edit"}
                 </button>
 
-                <button className="p-1 px-2  bg-red-500/50 rounded">
+                <button
+                  className="p-1 px-2  bg-red-500/50 rounded"
+                  onClick={() => alert("Brak Uprawnien")}
+                >
                   Delete
                 </button>
                 {editError && (

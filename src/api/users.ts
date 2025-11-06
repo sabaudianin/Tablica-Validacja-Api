@@ -33,3 +33,15 @@ export async function editUser(
   }
   return res.json() as Promise<User>;
 }
+
+export async function deleteUser(id: number): Promise<void> {
+  const res = await fetch(`${BASE}/users/${id}`, {
+    method: "DELETE",
+    headers: buildHeaders(),
+  });
+  if (!res.ok) {
+    throw new Error(
+      `DELETE /users/${id} failed: ${res.status} ${res.statusText}`
+    );
+  }
+}
