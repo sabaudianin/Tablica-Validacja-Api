@@ -32,3 +32,9 @@ export type ModalProps = {
   title?: string;
   children: React.ReactNode;
 };
+
+export type FormProps = {
+  open: boolean;
+  onClose: () => void;
+  user: User | null;
+};

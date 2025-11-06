@@ -36,7 +36,7 @@ export default function RootLayout() {
         </NavLink>
       </nav>
       <hr className="p-2 mt-2 w-full " />
-      <main className="flex-1 flex items-center justify-center w-full">
+      <main className="w-full flex-1 flex items-center justify-center w-full">
         <Outlet />
       </main>
       <footer className="w-full">

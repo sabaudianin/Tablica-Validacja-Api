@@ -1,7 +1,8 @@
-import React from "react";
-
+import React, { useState } from "react";
+import type { User } from "../../types/types";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useEditUser } from "../../hooks/useEditUser";
+import { EditUserForm } from "../../components/editUserForm/EditUserForm";
 
 export const ApiTask: React.FC = () => {
   const { loading, error, users } = useGetUser();
@@ -13,8 +14,11 @@ export const ApiTask: React.FC = () => {
     isEditing,
   } = useEditUser();
 
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<User | null>(null);
+
   return (
-    <section className="">
+    <section className="w-full">
       <div className="font-semibold">
         <h3>SEARCH USER LIST</h3>
         <input
@@ -42,12 +46,9 @@ export const ApiTask: React.FC = () => {
                 <button
                   disabled={isEditing(user.id)}
                   className="py-1 px-2 bg-blue-500/50 rounded disabled:opacity-90"
-                  onClick={async () => {
-                    const name = prompt("New name:", user.name);
-                    if (!name || name === user.name) return;
-                    try {
-                      await updateUser(user.id, { name });
-                    } catch {}
+                  onClick={() => {
+                    setSelected(user);
+                    setOpen(true);
                   }}
                 >
                   {isEditing(user.id) ? "Saving..." : "Edit"}
@@ -64,6 +65,11 @@ export const ApiTask: React.FC = () => {
           ))}
         </ul>
       )}
+      <EditUserForm
+        open={open}
+        onClose={() => setOpen(false)}
+        user={selected}
+      />
     </section>
   );
 };
