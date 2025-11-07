@@ -1,12 +1,37 @@
 import React, { useState } from "react";
 
 export const TekstTask = () => {
-  const [promptText, setpromptText] = useState("");
+  const [promptText, setPromptText] = useState("");
   const [cut, setCut] = useState(promptText);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  //Upload file , jakby nie działało na starych przegladarkach rozwazyc fileReader
+  const readTextFile = async (file: File): Promise<string> => {
+    return await file.text();
+  };
+
+  const uploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      const text = await readTextFile(file);
+      setPromptText(text);
+    } catch (error) {
+      console.log(error);
+      setError("Nie udało się załądować pliku");
+    } finally {
+      setIsLoading(false);
+      e.target.value = "";
+    }
+  };
 
   const handleMix = () => {
     setCut(cutText(promptText));
-    setpromptText("");
+    setPromptText("");
   };
 
   const mixWord = (word: string): string => {
@@ -38,12 +63,21 @@ export const TekstTask = () => {
         Wpisz tekst i wciśnij przycisk aby zmienić kolejność liter,
         przekształcony tekst pojawi się pod spodem.
       </h3>
+
       <div className="flex flex-col gap-2 items-center">
+        <input
+          type="file"
+          size={1024}
+          onChange={uploadFile}
+          accept=".txt,text/plain"
+          disabled={isLoading}
+        />
+        {error && <p className="text-red-500">{error}</p>}
         <textarea
           value={promptText}
           placeholder="Tu wpisz text..."
           rows={5}
-          onChange={(e) => setpromptText(e.target.value)}
+          onChange={(e) => setPromptText(e.target.value)}
           className="border w-full rounded p-1 text-center"
         ></textarea>
         <button
