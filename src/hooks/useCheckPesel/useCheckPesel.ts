@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { validatePesel } from "../lib/validatePesel";
+import { validatePesel } from "../../lib/validatePesel";
 
 export const useCheckPesel = () => {
   const [pesel, setPesel] = useState("");

@@ -20,7 +20,6 @@ describe("PeselTask tests", () => {
   test("Pokazuje Date urodzenia i płeć po podaniu poprawnego peselu", async () => {
     const { user, btn, inp } = setup();
 
-    await user.clear(inp);
     await user.type(inp, peselOk);
     await user.click(btn);
 
@@ -32,7 +31,6 @@ describe("PeselTask tests", () => {
   it("Pokazuje Błąd po wpisaniu nieprawidłowego Peselu", async () => {
     const { user, btn, inp } = setup();
 
-    await user.clear(inp);
     await user.type(inp, peselBad);
     await user.click(btn);
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useCheckPesel } from "../../hooks/useCheckPesel";
+import { useCheckPesel } from "../../hooks/useCheckPesel/useCheckPesel";
 
 export const PeselTask = () => {
   const { setPesel, pesel, result, handleCheck } = useCheckPesel();
