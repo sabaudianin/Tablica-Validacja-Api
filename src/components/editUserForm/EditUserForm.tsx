@@ -44,10 +44,10 @@ export const EditUserForm: React.FC<FormProps> = ({
     >
       <form
         onSubmit={submit}
-        className="space-y-2"
+        className="space-y-2 pt-4"
       >
         <div>
-          <label className=" text-sm font-semibold">Name</label>
+          <label className=" font-semibold">Name</label>
           <input
             className=" w-full rounded border p-2"
             value={name}
@@ -57,7 +57,7 @@ export const EditUserForm: React.FC<FormProps> = ({
         </div>
 
         <div>
-          <label className="text-sm font-semibold">Email</label>
+          <label className=" font-semibold">Email</label>
           <input
             type="email"
             className="mt-1 w-full rounded border p-2"
@@ -67,9 +67,9 @@ export const EditUserForm: React.FC<FormProps> = ({
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 pb-4">
           <div className="flex-1">
-            <label className="block text-sm font-semibold">Gender</label>
+            <label className="block font-semibold">Gender</label>
             <select
               className="mt-1 w-full rounded border p-2 bg-black"
               value={gender}
@@ -80,7 +80,7 @@ export const EditUserForm: React.FC<FormProps> = ({
             </select>
           </div>
           <div className="flex-1">
-            <label className="block text-sm font-semibold">Status</label>
+            <label className="block font-semibold">Status</label>
             <select
               className="mt-1 w-full rounded border p-2 bg-black "
               value={status}

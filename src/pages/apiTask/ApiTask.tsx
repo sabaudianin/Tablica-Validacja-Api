@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import type { User } from "../../types/types";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useEditUser } from "../../hooks/useEditUser";
-import { EditUserForm } from "../../components/editUserForm/EditUserForm";
+import { EditUserForm } from "../../components/EditUserForm/EditUserForm";
 
 export const ApiTask: React.FC = () => {
   const { loading, error, users, refetch, query, setQuery } = useGetUser();

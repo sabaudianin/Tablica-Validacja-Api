@@ -85,9 +85,9 @@ export const TekstTask = () => {
         <textarea
           value={promptText}
           placeholder="Tu wpisz text..."
-          rows={5}
+          rows={8}
           onChange={(e) => setPromptText(e.target.value)}
-          className="border w-full rounded p-1 text-center"
+          className="border w-full rounded p-1 text-center o"
         ></textarea>
         <button
           onClick={handleMix}
@@ -95,7 +95,9 @@ export const TekstTask = () => {
         >
           Mixuj
         </button>
-        <p className="font-semibold">{cut}</p>
+        <div className="font-medium max-w-5xl mx-auto whitespace-pre-wrap break-words overflow-hidden">
+          {cut}
+        </div>
       </div>
     </div>
   );

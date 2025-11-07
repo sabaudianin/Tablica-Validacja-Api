@@ -1,4 +1,4 @@
-import type { PeselType } from "../../types/types";
+import type { PeselType } from "../types/types";
 
 const WEIGHTS = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
 

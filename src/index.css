@@ -18,3 +18,42 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* 
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5em 1em;
+}
+
+select:hover {
+  background-color: #1b1d1f;
+}
+
+select::picker-icon {
+  content: "▼";
+  color: #666;
+}
+
+select:open::picker-icon {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+::picker(select) {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+option::checkmark {
+  content: "✔";
+  color: rgb(55, 225, 72);
+  font-size: 0.9em;
+  margin-right: 0.5em;
+  padding: 0.5rem;
+} */
