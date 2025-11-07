@@ -33,7 +33,7 @@ describe("Test Hooka useCheckPesel", () => {
     expect(result.current.result?.error).toBeTruthy();
   });
 
-  it("Zwraca Nieprawidłowa data urodzenia przy błędnym peselu", () => {
+  it("Zwraca Nieprawidłowa data urodzenia przy błędnej dacie Urodzenia w peselu", () => {
     const { result } = renderHook(() => useCheckPesel());
 
     act(() => {
