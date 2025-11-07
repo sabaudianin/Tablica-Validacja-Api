@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import type { User } from "../../types/types";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useEditUser } from "../../hooks/useEditUser";
-import { useCreateUser } from "../../hooks/useCreateUser";
+
 import { EditUserForm } from "../../components/EditUserForm/EditUserForm";
 
 export const ApiTask: React.FC = () => {
