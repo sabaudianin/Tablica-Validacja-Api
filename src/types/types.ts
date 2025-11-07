@@ -26,6 +26,13 @@ export type UpdateUserInput = Partial<
   Pick<User, "name" | "email" | "gender" | "status">
 >;
 
+export interface CreateUserInput {
+  name: string;
+  email: string;
+  gender: "male" | "female";
+  status: "active" | "inactive";
+}
+
 export type ModalProps = {
   open: boolean;
   onClose: () => void;

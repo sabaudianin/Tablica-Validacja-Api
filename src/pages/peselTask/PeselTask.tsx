@@ -6,8 +6,8 @@ export const PeselTask = () => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <h2 className="font-bold">ZADANIE 2</h2>
-      <label className="font-bold m-4 text-2xl">PESEL</label>
+      <h2 className="font-bold text-xl">Sprawdż poprawność numeru </h2>
+      <label className="font-bold m-4 text-xl">PESEL</label>
 
       <input
         value={pesel}

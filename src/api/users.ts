@@ -1,5 +1,5 @@
 import { buildHeaders } from "./apiClient";
-import type { User, UpdateUserInput } from "../types/types";
+import type { User, UpdateUserInput, CreateUserInput } from "../types/types";
 
 const BASE = import.meta.env.VITE_GOREST_BASE_URL as string;
 
@@ -44,4 +44,16 @@ export async function deleteUser(id: number): Promise<void> {
       `DELETE /users/${id} failed: ${res.status} ${res.statusText}`
     );
   }
+}
+
+export async function createUser(payload: CreateUserInput): Promise<User> {
+  const res = await fetch(`${BASE}/users`, {
+    method: "POST",
+    headers: buildHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    throw new Error(`POST users failed ${res.status} ${res.statusText}`);
+  }
+  return res.json() as Promise<User>;
 }

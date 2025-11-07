@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import type { User, FormProps } from "../../types/types";
+import type { FormProps } from "../../types/types";
 import { Modal } from "../modal/Modal";
 import { useEditUser } from "../../hooks/useEditUser";
 
