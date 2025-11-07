@@ -1,4 +1,3 @@
-import React from "react";
 import { useCheckPesel } from "../../hooks/useCheckPesel/useCheckPesel";
 
 export const PeselTask = () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getUsers } from "../api/users";
 import type { User } from "../types/types";
 

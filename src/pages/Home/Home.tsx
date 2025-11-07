@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Home = () => {
   return (
     <div className="grid gap-2 grid-rows-[auto_1fr_auto]  w-full">
