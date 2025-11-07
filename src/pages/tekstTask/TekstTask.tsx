@@ -58,20 +58,29 @@ export const TekstTask = () => {
 
   return (
     <div className="w-full text-center">
-      <h2 className="font-bold">ZADANIE 1</h2>
+      <h2 className="font-bold">LITEROPRZESTAWIACZ</h2>
       <h3 className="p-4">
-        Wpisz tekst i wciśnij przycisk aby zmienić kolejność liter,
-        przekształcony tekst pojawi się pod spodem.
+        Wpisz tekst lub wczytaj plik tesktowy, następnie wciśnij przycisk aby
+        zmienić kolejność liter. Twój przekształcony tekst pojawi się pod
+        spodem.
       </h3>
 
       <div className="flex flex-col gap-2 items-center">
         <input
+          id="inputId"
+          className="sr-only"
           type="file"
           size={1024}
           onChange={uploadFile}
           accept=".txt,text/plain"
           disabled={isLoading}
         />
+        <label
+          htmlFor="inputId"
+          className="p-2 bg-white/50 rounded m-2 font-semibold"
+        >
+          Wybierz Plik
+        </label>
         {error && <p className="text-red-500">{error}</p>}
         <textarea
           value={promptText}
