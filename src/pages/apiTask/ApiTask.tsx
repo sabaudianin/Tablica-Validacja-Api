@@ -107,7 +107,6 @@ export const ApiTask: React.FC = () => {
           open={openCreate}
           onClose={() => setOpenCreate(false)}
           userToEdit={null}
-          title="Add User"
           mode="create"
           loading={isPending}
           error={createError}
@@ -124,7 +123,6 @@ export const ApiTask: React.FC = () => {
           onClose={() => setOpenEdit(false)}
           userToEdit={selected}
           mode="edit"
-          title="Edit User"
           loading={isEditing(selected?.id)}
           error={editError}
           onSubmit={async (values) => updateUser(selected?.id, values)}
@@ -137,7 +135,6 @@ export const ApiTask: React.FC = () => {
           onClose={() => setOpenDelete(false)}
           userToEdit={selected}
           mode="delete"
-          title="Delete User"
           loading={isDeleting(selected?.id)}
           error={deleteError}
           onSubmit={async () => removeUser(selected?.id)}

@@ -7,7 +7,6 @@ export const UserForm: React.FC<UserFormProps> = ({
   onClose,
   userToEdit,
   mode,
-  title,
 
   loading = false,
   error = null,

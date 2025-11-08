@@ -63,7 +63,6 @@ export type UserFormProps = {
   onClose: () => void;
   mode: FormMode;
   userToEdit?: User | null;
-  title?: string;
 
   loading?: boolean;
   error?: string | null;
