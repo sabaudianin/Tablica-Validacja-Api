@@ -33,7 +33,9 @@ export const useGetUser = () => {
           page: String(page),
           ...(debounce ? { name: debounce } : {}),
         });
-        const data = await getUsers<User[]>(`/users?${queryString.toString()}`);
+        const data = await getUsers<User[]>(
+          `/users?per_page=30&${queryString.toString()}`
+        );
         setUsers(data);
       } catch (error) {
         setError(error instanceof Error ? error.message : String(error));

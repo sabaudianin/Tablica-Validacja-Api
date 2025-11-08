@@ -52,7 +52,7 @@ export const ApiTask: React.FC = () => {
       {error && <div className="text-red-500 font-semibold p-4">{error}</div>}
 
       {!loading && !error && (
-        <ul className="w-full grid gap-1 sm:grid-cols-2 lg:grid-cols-3 text-xs">
+        <ul className="w-full grid gap-1 lg:gap-4 sm:gap-2 sm:grid-cols-2 lg:grid-cols-3 text-xs">
           {users.map((user) => (
             <li
               key={user.id}
