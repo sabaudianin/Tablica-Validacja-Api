@@ -56,16 +56,17 @@ export interface UserFormType {
   gender: Gender;
   status: Status;
 }
+export type FormMode = "create" | "edit" | "delete";
 
 export type UserFormProps = {
   open: boolean;
   onClose: () => void;
-
+  mode: FormMode;
   userToEdit?: User | null;
   title?: string;
-  submitLabel?: string;
+
   loading?: boolean;
   error?: string | null;
-
+  confirmByEmail?: boolean;
   onSubmit: (value: UserFormType) => Promise<void> | void;
 };

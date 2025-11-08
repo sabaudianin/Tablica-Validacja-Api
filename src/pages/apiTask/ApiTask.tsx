@@ -2,25 +2,34 @@ import React, { useState } from "react";
 import type { User } from "../../types/types";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useEditUser } from "../../hooks/useEditUser";
-
-import { UserForm } from "../../components/userForm/UserForm";
+import { useDeleteUser } from "../../hooks/useDeleteUser";
 import { useCreateUser } from "../../hooks/useCreateUser";
+import { UserForm } from "../../components/userForm/UserForm";
 
 export const ApiTask: React.FC = () => {
   const { loading, error, users, refetch, query, setQuery } = useGetUser();
+
   const {
     updateUser,
     error: editError,
     isEditing,
   } = useEditUser({ onSuccess: refetch });
+
   const {
     create,
     isPending,
     error: createError,
   } = useCreateUser({ onSuccess: refetch });
 
+  const {
+    error: deleteError,
+    removeUser,
+    isDeleting,
+  } = useDeleteUser({ onSuccess: refetch });
+
   const [openCreate, setOpenCreate] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [selected, setSelected] = useState<User | null>(null);
 
   const openCreateModal = () => {
@@ -31,6 +40,10 @@ export const ApiTask: React.FC = () => {
     setOpenEdit(true);
   };
 
+  const openDeleteModal = (user: User) => {
+    setOpenDelete(true);
+    setSelected(user);
+  };
   return (
     <section className="w-full">
       <div className="w-full font-semibold flex gap-2 justify-center">
@@ -48,6 +61,11 @@ export const ApiTask: React.FC = () => {
         </button>
       </div>
       <h2 className="font-semibold p-1  mt-4">Go REST USERS LIST:</h2>
+      {(editError || createError || deleteError) && (
+        <div className="text-red-600 p-2">
+          {editError ?? createError ?? deleteError}
+        </div>
+      )}
       {loading && <div className="animate-pulse p-2">... LOADING ...</div>}
       {error && <div className="text-red-500 font-semibold p-4">{error}</div>}
 
@@ -74,15 +92,10 @@ export const ApiTask: React.FC = () => {
 
                 <button
                   className="p-1 px-2  bg-red-500/50 rounded"
-                  onClick={() => alert("Brak Uprawnien")}
+                  onClick={() => openDeleteModal(user)}
                 >
                   Delete
                 </button>
-                {(editError || createError) && (
-                  <div className="text-red-600 p-2">
-                    {editError ?? createError}
-                  </div>
-                )}
               </div>
             </li>
           ))}
@@ -95,7 +108,7 @@ export const ApiTask: React.FC = () => {
           onClose={() => setOpenCreate(false)}
           userToEdit={null}
           title="Add User"
-          submitLabel="Add"
+          mode="create"
           loading={isPending}
           error={createError}
           onSubmit={async (values) => {
@@ -110,11 +123,24 @@ export const ApiTask: React.FC = () => {
           open={openEdit}
           onClose={() => setOpenEdit(false)}
           userToEdit={selected}
+          mode="edit"
           title="Edit User"
-          submitLabel="Save"
           loading={isEditing(selected?.id)}
           error={editError}
           onSubmit={async (values) => updateUser(selected?.id, values)}
+        />
+      )}
+      {openDelete && selected && (
+        <UserForm
+          key={selected.id}
+          open={openDelete}
+          onClose={() => setOpenDelete(false)}
+          userToEdit={selected}
+          mode="delete"
+          title="Delete User"
+          loading={isDeleting(selected?.id)}
+          error={deleteError}
+          onSubmit={async () => removeUser(selected?.id)}
         />
       )}
     </section>
