@@ -1,46 +1,48 @@
-import React, { useState, useEffect } from "react";
-import type { FormProps } from "../../types/types";
+import React, { useEffect, useState } from "react";
+import type { UserFormProps, Gender, Status } from "../../types/types";
 import { Modal } from "../modal/Modal";
-import { useEditUser } from "../../hooks/useEditUser";
 
-export const EditUserForm: React.FC<FormProps> = ({
+export const UserForm: React.FC<UserFormProps> = ({
   open,
   onClose,
-  user,
-  onSaved,
+  userToEdit,
+  title,
+  submitLabel,
+  loading = false,
+  error = null,
+  onSubmit,
 }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState<"male" | "female">("male");
-  const [status, setStatus] = useState<"active" | "inactive">("active");
-
-  const { updateUser, isEditing, error } = useEditUser({ onSuccess: onSaved });
+  const [gender, setGender] = useState<Gender>("male");
+  const [status, setStatus] = useState<Status>("active");
 
   useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setGender(user.gender);
-      setStatus(user.status);
+    if (userToEdit) {
+      setName(userToEdit.name);
+      setEmail(userToEdit.email);
+      setGender(userToEdit.gender as Gender);
+      setStatus(userToEdit.status as Status);
+    } else {
+      setName("");
+      setEmail("");
+      setGender("male");
+      setStatus("active");
     }
-  }, [user]);
+  }, [userToEdit, open]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
     if (!name.trim() || !email.trim()) return;
-    try {
-      await updateUser(user.id, { name, email, gender, status });
-      onClose();
-    } catch (error) {
-      throw new Error(String(error));
-    }
+    await onSubmit({ name, email, gender, status });
+    onClose();
   };
+
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title="Edit user"
+      title={title}
     >
       <form
         onSubmit={submit}
@@ -73,7 +75,7 @@ export const EditUserForm: React.FC<FormProps> = ({
             <select
               className="mt-1 w-full rounded border p-2 bg-black"
               value={gender}
-              onChange={(e) => setGender(e.target.value as "male" | "female")}
+              onChange={(e) => setGender(e.target.value as Gender)}
             >
               <option value="male">male</option>
               <option value="female">female</option>
@@ -84,9 +86,7 @@ export const EditUserForm: React.FC<FormProps> = ({
             <select
               className="mt-1 w-full rounded border p-2 bg-black "
               value={status}
-              onChange={(e) =>
-                setStatus(e.target.value as "active" | "inactive")
-              }
+              onChange={(e) => setStatus(e.target.value as Status)}
             >
               <option value="active">active</option>
               <option value="inactive">inactive</option>
@@ -110,10 +110,10 @@ export const EditUserForm: React.FC<FormProps> = ({
           </button>
           <button
             type="submit"
-            disabled={!name || !email || isEditing(user?.id ?? -1)}
+            disabled={!name || !email || loading}
             className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white disabled:opacity-60"
           >
-            {isEditing(user?.id ?? -1) ? "Saving..." : "Save"}
+            {loading ? "Saving..." : submitLabel}
           </button>
         </div>
       </form>

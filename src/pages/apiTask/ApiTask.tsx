@@ -2,14 +2,34 @@ import React, { useState } from "react";
 import type { User } from "../../types/types";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useEditUser } from "../../hooks/useEditUser";
-import { EditUserForm } from "../../components/editUserForm/EditUserForm";
+
+import { UserForm } from "../../components/userForm/UserForm";
+import { useCreateUser } from "../../hooks/useCreateUser";
 
 export const ApiTask: React.FC = () => {
   const { loading, error, users, refetch, query, setQuery } = useGetUser();
-  const { error: editError, isEditing } = useEditUser({ onSuccess: refetch });
+  const {
+    updateUser,
+    error: editError,
+    isEditing,
+  } = useEditUser({ onSuccess: refetch });
+  const {
+    create,
+    isPending,
+    error: createError,
+  } = useCreateUser({ onSuccess: refetch });
 
-  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [selected, setSelected] = useState<User | null>(null);
+
+  const openCreateModal = () => {
+    setOpenCreate(true);
+  };
+  const openEditModal = (user: User) => {
+    setSelected(user);
+    setOpenEdit(true);
+  };
 
   return (
     <section className="w-full">
@@ -22,7 +42,7 @@ export const ApiTask: React.FC = () => {
         />
         <button
           className="bg-green-500/50 rounded p-2 w-1/3"
-          onClick={() => alert("Opcja dostepna niedługo")}
+          onClick={openCreateModal}
         >
           Add User
         </button>
@@ -47,10 +67,7 @@ export const ApiTask: React.FC = () => {
                 <button
                   disabled={isEditing(user.id)}
                   className="py-1 px-2 bg-blue-500/50 rounded disabled:opacity-90"
-                  onClick={() => {
-                    setSelected(user);
-                    setOpen(true);
-                  }}
+                  onClick={() => openEditModal(user)}
                 >
                   {isEditing(user.id) ? "Saving..." : "Edit"}
                 </button>
@@ -61,20 +78,45 @@ export const ApiTask: React.FC = () => {
                 >
                   Delete
                 </button>
-                {editError && (
-                  <div className="text-red-600 p-2">{editError}</div>
+                {(editError || createError) && (
+                  <div className="text-red-600 p-2">
+                    {editError ?? createError}
+                  </div>
                 )}
               </div>
             </li>
           ))}
         </ul>
       )}
-      <EditUserForm
-        open={open}
-        onClose={() => setOpen(false)}
-        user={selected}
-        onSaved={refetch}
-      />
+      {openCreate && (
+        <UserForm
+          key="create"
+          open={openCreate}
+          onClose={() => setOpenCreate(false)}
+          userToEdit={null}
+          title="Add User"
+          submitLabel="Add"
+          loading={isPending}
+          error={createError}
+          onSubmit={async (values) => {
+            await create(values);
+          }}
+        />
+      )}
+
+      {openEdit && selected && (
+        <UserForm
+          key={selected.id}
+          open={openEdit}
+          onClose={() => setOpenEdit(false)}
+          userToEdit={selected}
+          title="Edit User"
+          submitLabel="Save"
+          loading={isEditing(selected?.id)}
+          error={editError}
+          onSubmit={async (values) => updateUser(selected?.id, values)}
+        />
+      )}
     </section>
   );
 };

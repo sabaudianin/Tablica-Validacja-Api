@@ -7,12 +7,15 @@ export type PeselType =
       sex: "M" | "F";
     };
 
+export type Gender = "male" | "female";
+export type Status = "active" | "inactive";
+
 export type User = {
   id: number;
   name: string;
   email: string;
-  gender: "male" | "female";
-  status: "active" | "inactive";
+  gender: Gender;
+  status: Status;
 };
 
 // export type UpdateUserInput = {
@@ -29,8 +32,8 @@ export type UpdateUserInput = Partial<
 export interface CreateUserInput {
   name: string;
   email: string;
-  gender: "male" | "female";
-  status: "active" | "inactive";
+  gender: Gender;
+  status: Status;
 }
 
 export type ModalProps = {
@@ -45,4 +48,24 @@ export type FormProps = {
   onClose: () => void;
   user: User | null;
   onSaved: () => void;
+};
+
+export interface UserFormType {
+  name: string;
+  email: string;
+  gender: Gender;
+  status: Status;
+}
+
+export type UserFormProps = {
+  open: boolean;
+  onClose: () => void;
+
+  userToEdit?: User | null;
+  title?: string;
+  submitLabel?: string;
+  loading?: boolean;
+  error?: string | null;
+
+  onSubmit: (value: UserFormType) => Promise<void> | void;
 };
