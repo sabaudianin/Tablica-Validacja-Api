@@ -18,6 +18,15 @@ export type User = {
   status: Status;
 };
 
+export type UserState = {
+  loading: boolean;
+  error: string | null;
+  users: User[];
+  page: number;
+  reload: boolean;
+  query: string;
+};
+
 // export type UpdateUserInput = {
 //   name?: string;
 //   email?: string;
@@ -56,6 +65,7 @@ export interface UserFormType {
   gender: Gender;
   status: Status;
 }
+
 export type FormMode = "create" | "edit" | "delete";
 
 export type UserFormProps = {
@@ -63,7 +73,6 @@ export type UserFormProps = {
   onClose: () => void;
   mode: FormMode;
   userToEdit?: User | null;
-
   loading?: boolean;
   error?: string | null;
   confirmByEmail?: boolean;
