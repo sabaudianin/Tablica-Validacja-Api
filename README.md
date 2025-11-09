@@ -1,5 +1,27 @@
 # React + TypeScript + Vite
 
+Termin realizacji zadan rekrutacyjnych (piątek 07.11.25) i commit
+f5aa38cc47b01c9d2b61cb0d6c405f04b2710b6d spełniał wszystkie założone wymagania, także prosze pod uwage brać stan projektu z tego terminu i commita .
+Po tym terminie realizuje dalsze ulepszanie aplikacji i refaktoryzacje kodu do stanu który będzie mnie zadowalał.
+
+## LIVE DEMO Projektu dostepne (latest version) : https://peselchecker.netlify.app/
+
+### Prosta aplikacja składająca się z trzech części:
+
+# LITEROPRZESTAWIACZ -
+
+Pozwala na wpisanie dowolnego tekstu za pomocą formularza lub załadowanie pliku tekstowego, po wciśnięciu buttona losowo przestawia szyk liter w każdym wyrazie, oprócz pierwszej i ostatniej litery. Bazuje na metodach tablicowych.
+
+# PESELCHECKER -
+
+Aplikacja validująca poprawność numeru PESEL, po podaniu prawidłowego PESELU podaje datę urodzenia i płeć. Aplikacja przetestowana testami jednostkowymi przy pomocy VITEST.
+
+# Obsługa API -
+
+APlikacja obsługująca operacje CRUD na API z GoRest. Celowo nie zastosowano żadnej biblioteki.
+
+###
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -17,9 +39,9 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
 
@@ -34,40 +56,40 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
       // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+      reactX.configs["recommended-typescript"],
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
+]);
 ```
