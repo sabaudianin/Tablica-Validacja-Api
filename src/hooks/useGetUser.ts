@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getUsers } from "../api/users";
 import type { User } from "../types/types";
+import { useDebounce } from "./useDebounce";
 
 export const useGetUser = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -8,19 +9,16 @@ export const useGetUser = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [reload, setReload] = useState<boolean>(false);
-  const [query, setQuery] = useState("");
-  const [debounce, setDebounce] = useState(query);
+  const [query, setQuery] = useState<string>("");
+
+  const debouncedValue = useDebounce(query);
 
   const refetch = useCallback(() => setReload((prev) => !prev), []);
-  //debounce dla query
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounce(query), 1000);
-    return () => clearTimeout(timer);
-  }, [query]);
+
   //zmian failtra wraca na strone 1
   useEffect(() => {
     setPage(1);
-  }, [debounce]);
+  }, [debouncedValue]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -31,7 +29,7 @@ export const useGetUser = () => {
 
         const queryString = new URLSearchParams({
           page: String(page),
-          ...(debounce ? { name: debounce } : {}),
+          ...(debouncedValue ? { name: debouncedValue } : {}),
         });
         const data = await getUsers<User[]>(
           `/users?per_page=30&${queryString.toString()}`
@@ -44,7 +42,7 @@ export const useGetUser = () => {
       }
     })();
     return () => abortController.abort();
-  }, [page, reload, debounce]);
+  }, [page, reload, debouncedValue]);
 
   const nextPage = useCallback(() => {
     setPage((page) => page + 1);
