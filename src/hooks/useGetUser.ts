@@ -1,65 +1,74 @@
 import { useState, useEffect, useCallback } from "react";
 import { getUsers } from "../api/users";
-import type { User } from "../types/types";
+import type { User, UserState } from "../types/types";
 import { useDebounce } from "./useDebounce";
 
 export const useGetUser = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState<number>(1);
-  const [reload, setReload] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>("");
+  const [state, setState] = useState<UserState>({
+    loading: true,
+    users: [],
+    error: null,
+    page: 1,
+    query: "",
+    reload: false,
+  });
 
-  const debouncedValue = useDebounce(query);
+  const debouncedValue = useDebounce(state.query);
 
-  const refetch = useCallback(() => setReload((prev) => !prev), []);
+  const refetch = useCallback(
+    () => setState((state) => ({ ...state, reload: !state.reload })),
+    []
+  );
+
+  const changePage = useCallback((step: number) => {
+    setState((state) => ({ ...state, page: Math.max(1, state.page + step) }));
+  }, []);
+
+  const setQuery = useCallback((query: string) => {
+    setState((state) => ({ ...state, query: query }));
+  }, []);
 
   //zmian failtra wraca na strone 1
   useEffect(() => {
-    setPage(1);
+    setState((state) => ({ ...state, page: 1 }));
   }, [debouncedValue]);
 
   useEffect(() => {
     const abortController = new AbortController();
     (async () => {
       try {
-        setLoading(true);
-        setError(null);
+        setState((state) => ({ ...state, loading: true, error: null }));
 
         const queryString = new URLSearchParams({
-          page: String(page),
+          page: String(state.page),
           ...(debouncedValue ? { name: debouncedValue } : {}),
         });
         const data = await getUsers<User[]>(
           `/users?per_page=30&${queryString.toString()}`
         );
-        setUsers(data);
-      } catch (error) {
-        setError(error instanceof Error ? error.message : String(error));
+
+        setState((state) => ({ ...state, users: data }));
+      } catch (err) {
+        setState((state) => ({
+          ...state,
+          error: err instanceof Error ? err.message : String(err),
+        }));
       } finally {
-        if (!abortController.signal.aborted) setLoading(false);
+        if (!abortController.signal.aborted)
+          setState((state) => ({ ...state, loading: false }));
       }
     })();
     return () => abortController.abort();
-  }, [page, reload, debouncedValue]);
-
-  const nextPage = useCallback(() => {
-    setPage((page) => page + 1);
-  }, []);
-  const prevPage = useCallback(() => {
-    setPage((page) => Math.max(1, page - 1));
-  }, []);
+  }, [state.page, state.reload, debouncedValue]);
 
   return {
-    loading,
-    error,
-    users,
-    nextPage,
-    prevPage,
-    page,
-    refetch,
+    loading: state.loading,
+    error: state.error,
+    users: state.users,
+    page: state.page,
+    query: state.query,
     setQuery,
-    query,
+    changePage,
+    refetch,
   };
 };

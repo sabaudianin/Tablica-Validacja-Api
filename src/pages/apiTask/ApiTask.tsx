@@ -7,7 +7,8 @@ import { useCreateUser } from "../../hooks/useCreateUser";
 import { UserForm } from "../../components/userForm/UserForm";
 
 export const ApiTask: React.FC = () => {
-  const { loading, error, users, refetch, query, setQuery } = useGetUser();
+  const { loading, error, users, refetch, query, setQuery, changePage, page } =
+    useGetUser();
 
   const {
     updateUser,
@@ -74,7 +75,7 @@ export const ApiTask: React.FC = () => {
           {users.map((user) => (
             <li
               key={user.id}
-              className="border p-1"
+              className="border p-1 rounded"
             >
               <p className="text-sm">{user.name}</p>
               <p>{user.email}</p>
@@ -91,7 +92,7 @@ export const ApiTask: React.FC = () => {
                 </button>
 
                 <button
-                  className="p-1 px-2  bg-red-500/50 rounded"
+                  className="p-1 px-2  bg-red-500/50 rounded "
                   onClick={() => openDeleteModal(user)}
                 >
                   Delete
@@ -140,6 +141,24 @@ export const ApiTask: React.FC = () => {
           onSubmit={async () => removeUser(selected?.id)}
         />
       )}
+      <div className="flex justify-between items-center p-4">
+        <button
+          onClick={() => changePage(-1)}
+          disabled={page === 1}
+          className={`p-2 font-bold rounded hover:scale-105 transition  ${
+            page == 1 ? "bg-white/10 text-white/20 d" : "bg-white/20"
+          }`}
+        >
+          ◀◀ PREV
+        </button>{" "}
+        <button
+          onClick={() => changePage(1)}
+          type="button"
+          className="p-2 bg-white/20 font-bold rounded hover:scale-105 transition "
+        >
+          NEXT ▶▶
+        </button>
+      </div>
     </section>
   );
 };
