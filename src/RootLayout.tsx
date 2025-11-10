@@ -13,25 +13,25 @@ export default function RootLayout() {
           to="/"
           className={nav}
         >
-          HOME
+          📺
         </NavLink>
         <NavLink
           to="/tekst"
           className={nav}
         >
-          1-TEKST
+          Tekst Mix
         </NavLink>
         <NavLink
           to="/pesel"
           className={nav}
         >
-          2-PESEL
+          Pesel Check
         </NavLink>
         <NavLink
           to="/api"
           className={nav}
         >
-          3-API
+          API List
         </NavLink>
       </nav>
       <hr className="my-4 w-full h-px border-0 bg-gray-200" />
