@@ -21,5 +21,9 @@ export async function deleteUser(id: number): Promise<void> {
 }
 
 export async function createUser(payload: CreateUserInput): Promise<User> {
-  return api<User>("/users", { method: "POST", body: payload });
+  return api<User>("/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: payload,
+  });
 }

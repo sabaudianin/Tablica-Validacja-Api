@@ -46,16 +46,16 @@ export const handler: Handler = async (event): Promise<HandlerResponse> => {
     if (j !== "path" && typeof k === "string") url.searchParams.set(j, k);
   }
 
-  const init: RequestInit = {
-    method: event.httpMethod,
-    headers: buildHeaders(),
-    body: ["POST", "PUT", "PATCH", "DELETE"].includes(event.httpMethod)
-      ? event.body
-      : undefined,
-  };
+  const method = event.httpMethod.toUpperCase();
+  const hasBody = ["POST", "PUT", "PATCH", "DELETE"].includes(method);
 
-  const resp = await fetch(url.toString(), init);
-  const body = await resp.text();
+  const resp = await fetch(url.toString(), {
+    method,
+    headers: buildHeaders(hasBody),
+    body: hasBody ? event.body ?? undefined : undefined,
+  });
+
+  const bodyText = await resp.text();
   const contentType = resp.headers.get("content-type") || "application/json";
 
   return {
@@ -64,6 +64,6 @@ export const handler: Handler = async (event): Promise<HandlerResponse> => {
       ...corsHeaders,
       "Content-Type": contentType,
     },
-    body,
+    body: bodyText,
   };
 };
