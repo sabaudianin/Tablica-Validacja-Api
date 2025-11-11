@@ -1,59 +1,25 @@
-import { buildHeaders } from "./apiClient";
 import type { User, UpdateUserInput, CreateUserInput } from "../types/types";
-
-const BASE = import.meta.env.GOREST_BASE_URL as string;
+import { api } from "./apiClient";
 
 export async function getUsers<T>(
   path: string,
   signal?: AbortSignal
 ): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
-    headers: buildHeaders(),
-    signal,
-  });
-  if (!res.ok) {
-    throw new Error(`GET ${path} failed: ${res.status} ${res.statusText}`);
-  }
-  return res.json() as Promise<T>;
+  return api<T>(path, { signal });
 }
 
 export async function editUser(
   id: number,
   payload: UpdateUserInput
 ): Promise<User> {
-  const res = await fetch(`${BASE}/users/${id}`, {
-    method: "PATCH",
-    headers: buildHeaders(),
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    throw new Error(
-      `PATCH /users/${id} failed: ${res.status} ${res.statusText} `
-    );
-  }
-  return res.json() as Promise<User>;
+  return api<User>(`/users/${id}`, { method: "PATCH", body: payload });
 }
 
 export async function deleteUser(id: number): Promise<void> {
-  const res = await fetch(`${BASE}/users/${id}`, {
-    method: "DELETE",
-    headers: buildHeaders(),
-  });
-  if (!res.ok) {
-    throw new Error(
-      `DELETE /users/${id} failed: ${res.status} ${res.statusText}`
-    );
-  }
+  // GoREST zwraca zwykle 204 No Content – api() poradzi sobie z pustą odpowiedzią
+  await api<unknown>(`/users/${id}`, { method: "DELETE" });
 }
 
 export async function createUser(payload: CreateUserInput): Promise<User> {
-  const res = await fetch(`${BASE}/users`, {
-    method: "POST",
-    headers: buildHeaders(),
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    throw new Error(`POST users failed ${res.status} ${res.statusText}`);
-  }
-  return res.json() as Promise<User>;
+  return api<User>("/users", { method: "POST", body: payload });
 }
