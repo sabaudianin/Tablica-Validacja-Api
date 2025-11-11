@@ -1,7 +1,7 @@
 import { buildHeaders } from "./apiClient";
 import type { User, UpdateUserInput, CreateUserInput } from "../types/types";
 
-const BASE = import.meta.env.VITE_GOREST_BASE_URL as string;
+const BASE = import.meta.env.GOREST_BASE_URL as string;
 
 export async function getUsers<T>(
   path: string,

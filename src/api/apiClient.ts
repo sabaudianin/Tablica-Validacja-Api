@@ -1,4 +1,4 @@
-const TOKEN = import.meta.env.VITE_GOREST_TOKEN as string;
+const TOKEN = import.meta.env.GOREST_TOKEN as string;
 
 export function buildHeaders() {
   return {
