@@ -1,5 +1,5 @@
-import { describe, expect, afterEach, test, it } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Home } from "./Home";
 import { MemoryRouter, Routes, Route } from "react-router";
