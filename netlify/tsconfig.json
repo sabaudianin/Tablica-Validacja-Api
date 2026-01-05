@@ -1,9 +1,0 @@
-{
-  // Wskazujemy, aby dziedziczyć wszystkie ustawienia Node.js z głównego pliku
-  "extends": "../tsconfig.node.json",
-  "compilerOptions": {
-    "types": ["node", "@netlify/functions"],
-    "useUnknownInCatchVariables": true
-  },
-  "include": ["**/*.ts"]
-}
